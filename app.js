@@ -10,8 +10,41 @@ lista y se mostrará en la página.
 // Array que almacena los nombres de los amigos ingresados
 let amigos = [];
 
-function agregarAmigo() {
-    let textUsuario = document.getElementById('amigo'),value;
-    alert(`El valor ingresado es ${textUsuario}`);
+function limpiarEntrada() {
+    document.querySelector('#amigo').value = '';
     return;
+}
+
+function validarNombre(nombre) {
+    let limpio = nombre.trim();
+
+    //Lista de todas las validaciones contempladas
+    const reglas = [
+        { test: limpio.length > 0, mensaje: "El nombre no puede estar vacío." },
+        { test: limpio.length >= 2, mensaje: "El nombre debe tener al menos dos letras." },
+        { test: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/.test(limpio), mensaje: "El nombre solo puede contener letras y espacios." },
+        { test: !/\s{2,}/.test(limpio), mensaje: "El nombre no puede tener espacios múltiples seguidos." }
+    ];
+
+    for (let regla of reglas) {
+        if (!regla.test) {
+            alert(regla.mensaje);
+            return false;
+        }
+    }
+
+    return true; //Cumple todas las validaciones
+}
+
+
+function agregarAmigo() {
+    let textUsuario = document.getElementById('amigo').value;
+
+    if (validarNombre(textUsuario)) {
+        let limpio = textUsuario.trim();
+        alert(`El valor ingresado es ${limpio}`);
+        amigos.push(limpio);
+    }
+
+    limpiarEntrada();
 }
