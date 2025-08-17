@@ -48,10 +48,18 @@ function imprimirAmigos (listAmigos, indice) {
 
 function agregarAmigo() {
     let textUsuario = document.getElementById('amigo').value;
-
+    let tam = amigos.length;
     if (validarNombre(textUsuario)) {
+        
+        if (tam === 0) {
+            let listHtml = document.getElementById('listaAmigos');
+            let resultHtml = document.getElementById('resultado');
+            //Limpia la lista actual de nombres
+            listHtml.innerHTML = "";
+            resultHtml.innerHTML = "";
+        }
+
         let limpio = textUsuario.trim();
-        //alert(`El valor ingresado es ${limpio}`);
         // Se adiciona el valor limpio a la cadena amigos
         amigos.push(limpio);
         console.log(amigos);
@@ -61,4 +69,23 @@ function agregarAmigo() {
     }
 
     limpiarEntrada();
+}
+
+function sortearAmigo() {
+    let tam = amigos.length;
+    if (tam === 0) {
+        alert("La lista de amigos está vacía, por favor ingrese un nombre.");
+    } else {
+        let numeroGenerado =  Math.floor(Math.random()*tam);
+        //console.log(amigos.length);
+        let listHtml = document.getElementById('listaAmigos');
+        let resultHtml = document.getElementById('resultado');
+        //Limpia la lista actual de nombres
+        listHtml.innerHTML = "";
+        resultHtml.innerHTML = "";
+        resultHtml.innerHTML = `El amigo secreto sorteado es: ${amigos[numeroGenerado]}`;
+        amigos = [];
+        indiceAmigos = 0;
+        limpiarEntrada();
+    }
 }
