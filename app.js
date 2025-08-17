@@ -9,6 +9,7 @@ lista y se mostrará en la página.
 
 // Array que almacena los nombres de los amigos ingresados
 let amigos = [];
+let indiceAmigos = 0;
 
 function limpiarEntrada() {
     document.querySelector('#amigo').value = '';
@@ -20,7 +21,7 @@ function validarNombre(nombre) {
 
     //Lista de todas las validaciones contempladas
     const reglas = [
-        { test: limpio.length > 0, mensaje: "El nombre no puede estar vacío." },
+        { test: limpio.length > 0, mensaje: "Por favor, inserte un nombre." },
         { test: limpio.length >= 2, mensaje: "El nombre debe tener al menos dos letras." },
         { test: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/.test(limpio), mensaje: "El nombre solo puede contener letras y espacios." },
         { test: !/\s{2,}/.test(limpio), mensaje: "El nombre no puede tener espacios múltiples seguidos." }
@@ -36,14 +37,27 @@ function validarNombre(nombre) {
     return true; //Cumple todas las validaciones
 }
 
+function imprimirAmigos (listAmigos, indice) {
+    let listHtml = document.getElementById('listaAmigos');
+    let elemToList = document.createElement('li');
+    let text = document.createTextNode(listAmigos[indice]);
+    elemToList.appendChild(text);
+    listHtml.appendChild(elemToList);
+    return;
+}
 
 function agregarAmigo() {
     let textUsuario = document.getElementById('amigo').value;
 
     if (validarNombre(textUsuario)) {
         let limpio = textUsuario.trim();
-        alert(`El valor ingresado es ${limpio}`);
+        //alert(`El valor ingresado es ${limpio}`);
+        // Se adiciona el valor limpio a la cadena amigos
         amigos.push(limpio);
+        console.log(amigos);
+        imprimirAmigos(amigos, indiceAmigos);
+        //Incrementa el indice para evitar usar un bucle
+        indiceAmigos++;
     }
 
     limpiarEntrada();
